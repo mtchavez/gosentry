@@ -5,56 +5,59 @@ import (
 )
 
 func TestParseDsn_BadURI(t *testing.T) {
-	user, pass, proj, err := parseDsn("@cas.cc")
+	rc := &RavenConfig{}
+	err := rc.parseDsn("@cas.cc")
 	if err == nil {
 		t.Error("Bad DSN didn't raise error")
 	}
-	if user != "" {
-		t.Errorf("Parsed user incorrectly got %+v", user)
+	if rc.User != "" {
+		t.Errorf("Parsed user incorrectly got %+v", rc.User)
 	}
 
-	if pass != "" {
-		t.Errorf("Parsed password incorrectly got %+v", pass)
+	if rc.Pass != "" {
+		t.Errorf("Parsed password incorrectly got %+v", rc.Pass)
 	}
 
-	if proj != "" {
-		t.Errorf("Parsed project incorrectly got %+v", proj)
+	if rc.Project != "" {
+		t.Errorf("Parsed project incorrectly got %+v", rc.Project)
 	}
 }
 
 func TestParseDsn_NoPass(t *testing.T) {
-	user, pass, proj, err := parseDsn("http://asdf123@cas.cc")
+	rc := &RavenConfig{}
+	err := rc.parseDsn("http://asdf123@cas.cc")
 	if err != nil {
 		t.Error("Incorrectly raised url parse error")
 	}
-	if user == "" {
-		t.Errorf("Parsed user incorrectly got %+v", user)
+	if rc.User == "" {
+		t.Errorf("Parsed user incorrectly got %+v", rc.User)
 	}
 
-	if pass != "" {
-		t.Errorf("Parsed password incorrectly got %+v", pass)
+	if rc.Pass != "" {
+		t.Errorf("Parsed password incorrectly got %+v", rc.Pass)
 	}
 
-	if proj != "" {
-		t.Errorf("Parsed project incorrectly got %+v", proj)
+	if rc.Project != "" {
+		t.Errorf("Parsed project incorrectly got %+v", rc.Project)
 	}
 }
 
 func TestParseDsn_Success(t *testing.T) {
-	user, pass, proj, err := parseDsn("http://asdf123:my-pw@cas.cc/1234")
+	rc := &RavenConfig{}	
+	err := rc.parseDsn("http://asdf123:my-pw@cas.cc/1234")
 	if err != nil {
 		t.Error("Incorrectly raised url parse error")
 	}
-	if user != "asdf123" {
-		t.Errorf("Parsed user incorrectly got %+v", user)
+	if rc.User != "asdf123" {
+		t.Errorf("Parsed user incorrectly got %+v", rc.User)
 	}
 
-	if pass != "my-pw" {
-		t.Errorf("Parsed password incorrectly got %+v", pass)
+	if rc.Pass != "my-pw" {
+		t.Errorf("Parsed password incorrectly got %+v", rc.Pass)
 	}
 
-	if proj != "1234" {
-		t.Errorf("Parsed project incorrectly got %+v", proj)
+	if rc.Project != "1234" {
+		t.Errorf("Parsed project incorrectly got %+v", rc.Project)
 	}
 }
 

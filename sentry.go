@@ -123,9 +123,6 @@ func (rc *RavenConfig) Message(panicMsg interface{}, msg string, ifaces ...inter
 		ContextLines: stack,
 		Exception:    except,
 	}
-	fmt.Printf("In Raven: %+v\n", body)
-	js, _ := json.Marshal(body)
-	fmt.Printf("JSON BODY: %+v\n", string(js))
 	if err := rc.sendMessage(body); err != nil {
 		fmt.Println("ERR: ", err)
 	}
@@ -156,8 +153,8 @@ func (rc *RavenConfig) sendMessage(body *sentryEvent) error {
 	resp, err := rc.client.Do(req)
 	bodyBuf := bytes.NewBuffer(make([]byte, 64000))
 	resp.Body.Read(bodyBuf.Bytes())
-	fmt.Printf("%+v %+v\n", resp.Status, resp.StatusCode)
-	fmt.Println("RESPONSE: ", string(bodyBuf.Bytes()))
+	// fmt.Printf("%+v %+v\n", resp.Status, resp.StatusCode)
+	// fmt.Println("RESPONSE: ", string(bodyBuf.Bytes()))
 	if err != nil {
 		fmt.Println("Do() ERR: ", err)
 		return err
