@@ -35,7 +35,7 @@ Capture a panic and sent error to sentry
 func myFunc() {
     defer func() {
         if r := recover(); r != nil {
-            Raven.Message(r, 'in package.myFunc()')
+            Raven.Message(r, "in package.myFunc()")
         }
     }()
 
